@@ -44,14 +44,22 @@ public class Entity {
 	private Bits componentBits;
 	private Bits familyBits;
 
+	private Object userObject;
+
 	/** Creates an empty Entity. */
-	public Entity () {
+	public Entity() {
+		this(null);
+	}
+	
+	/** Creates an empty Entity with the given userObject. */
+	public Entity(Object userObject) {
 		components = new Bag<Component>();
 		componentsArray = new Array<Component>(false, 16);
 		immutableComponentsArray = new ImmutableArray<Component>(componentsArray);
 		componentBits = new Bits();
 		familyBits = new Bits();
 		flags = 0;
+		this.userObject = userObject;
 
 		componentAdded = new Signal<Entity>();
 		componentRemoved = new Signal<Entity>();
@@ -223,5 +231,20 @@ public class Entity {
 	/** @return true if the entity is scheduled to be removed */
 	public boolean isScheduledForRemoval () {
 		return scheduledForRemoval;
+	}
+
+	public Object getUserObject() {
+		return userObject;
+	}
+
+	public void setUserObject(Object userObject) {
+		this.userObject = userObject;
+	}
+	
+	@Override
+	public String toString() {
+		if (userObject != null)
+			return userObject.toString();
+		return super.toString();
 	}
 }
